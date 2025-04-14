@@ -6,6 +6,8 @@ import {
 } from '@nestjs/platform-fastify';
 import multipart from '@fastify/multipart';
 import { responseDecorator } from '@decorators';
+import { uzmug } from './libs/uzmug';
+require('ts-node/register');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -16,6 +18,11 @@ async function bootstrap() {
   await app.register(multipart);
   const fastifyInstance = app.getHttpAdapter().getInstance();
   await responseDecorator(fastifyInstance)
+
+  uzmug.up().catch((err) => {
+    console.error('Error running migrations:', err);
+  });
+
   await app.listen(port).then(() => {
     console.log(`Server started at http://localhost/${port}`);
   });

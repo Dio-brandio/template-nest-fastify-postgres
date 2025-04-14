@@ -34,7 +34,6 @@ export class AuthGuard implements CanActivate {
   getRoleBoolean(roleName: string) {
     return {
       isAdmin: roleName === ROLE.ADMIN,
-      isTherapist: roleName === ROLE.THERAPIST,
       isUser: roleName === ROLE.USER,
     };
   }

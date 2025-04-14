@@ -135,16 +135,6 @@ const ACCEPTED_FIELDS = [
   { name: 'backgroundTrack', maxCount: 1 },
 ];
 
-type FILE_UPLOAD_FIELDS = (typeof ACCEPTED_FIELDS)[number]['name'];
-
-type UPDATE_MODEL_FIELDS_TYPE<M> = Record<
-  FILE_UPLOAD_FIELDS,
-  {
-    model: M;
-    field: string;
-    uniqueField: string;
-  }
->;
 
 const ALLOWED_MIMETYPES = [
   'image/jpeg',

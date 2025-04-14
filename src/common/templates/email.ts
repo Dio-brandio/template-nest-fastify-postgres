@@ -56,8 +56,8 @@ export const emailTemplate = async (
 								<p>Thank you for your time and consideration. I look forward to your response.</p>
 						</div>
 						<div class="footer">
-								<p>Best regards,<br>Nirlat Team</p>
-								<p>Jr.Software Developer<br>+91 9307871334</p>
+								<p>Best regards,<br>Nice Company</p>
+								<p>Jr.Software Developer<br>No phone number here</p>
 						</div>
 				</div>
 		</body>
