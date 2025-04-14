@@ -21,12 +21,11 @@ export class AppController {
         });
       }
 
-      console.log(files);
-      res.send({
-        status: HttpStatus.OK,
-        message: 'Upload successful',
-        data: await this.appService.getHello(),
-      });
+      // res.send({
+      //   status: HttpStatus.OK,
+      //   message: 'Upload successful',
+      //   data: await this.appService.getHello(),
+      // });
     } catch (error) {
       res.send({
         status: HttpStatus.INTERNAL_SERVER_ERROR,

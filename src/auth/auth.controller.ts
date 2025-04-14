@@ -15,10 +15,7 @@ export class AuthController {
     @Body(new ZodValidationPipe(loginSchema)) loginData: LoginDTO
   ) {
     try {
-      res.code(HttpStatus.OK).send({
-        message: 'success',
-        data: loginData
-      })
+      res.ok(loginData)
     } catch (error) {
       handleError(res, error)
     }

@@ -15,9 +15,7 @@ export class ZodValidationPipe implements PipeTransform {
       if (metadata.type === 'param') return value;
       return this.schema.parse(value);
     } catch (err) {
-      console.log(err);
       if (err instanceof ZodError) {
-        console.log(err);
 
         const formattedErrors = err.errors.map((error) => {
           // error.path is an array of keys leading to the error

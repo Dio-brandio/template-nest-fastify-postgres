@@ -25,10 +25,5 @@ export async function handleError(
   if (transaction) {
     await transaction.rollback();
   }
-  res.code(error.status ?? HttpStatus.INTERNAL_SERVER_ERROR).send({
-    status: error.status ?? HttpStatus.INTERNAL_SERVER_ERROR,
-    success: false,
-    data: error?.data ?? null,
-    message: message.join(', '),
-  });
+  res.custom(error.status ?? HttpStatus.INTERNAL_SERVER_ERROR, message.join(', '), error?.data)
 }

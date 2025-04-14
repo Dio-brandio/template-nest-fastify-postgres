@@ -5,6 +5,8 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import multipart from '@fastify/multipart';
+import { responseDecorator } from '@decorators';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -12,6 +14,8 @@ async function bootstrap() {
   );
   const port = process.env.PORT ?? 3000;
   await app.register(multipart);
+  const fastifyInstance = app.getHttpAdapter().getInstance();
+  await responseDecorator(fastifyInstance)
   await app.listen(port).then(() => {
     console.log(`Server started at http://localhost/${port}`);
   });
