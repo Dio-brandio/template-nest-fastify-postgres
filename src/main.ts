@@ -7,7 +7,7 @@ import {
 import multipart from '@fastify/multipart';
 import { responseDecorator } from '@decorators';
 import { uzmug } from './libs/uzmug';
-import { FastifyAuditPlugin } from '@middlewares';
+import { FastifyAuditPlugin, LoggerMiddleware } from '@middlewares';
 require('ts-node/register');
 
 async function bootstrap() {
@@ -18,9 +18,16 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3000;
   await app.register(multipart);
   const fastifyInstance = app.getHttpAdapter().getInstance();
+
+  //middlewares
   await responseDecorator(fastifyInstance);
+
   const auditPlugin = app.get(FastifyAuditPlugin);
   auditPlugin.apply(fastifyInstance);
+
+  const loggerPlugin = app.get(LoggerMiddleware);
+  loggerPlugin.apply(fastifyInstance);
+
   uzmug.up().catch((err) => {
     console.error('Error running migrations:', err);
   });

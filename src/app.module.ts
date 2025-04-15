@@ -23,10 +23,7 @@ import { BullModule } from '@nestjs/bullmq';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, FastifyAuditPlugin],
+  providers: [AppService, FastifyAuditPlugin, LoggerMiddleware],
 })
 export class AppModule {
-  async configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
 }

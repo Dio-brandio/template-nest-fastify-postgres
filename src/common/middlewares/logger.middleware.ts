@@ -1,42 +1,33 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import chalk from 'chalk';
 import moment from 'moment';
+import * as fs from 'fs';
+import * as path from 'path';
+import { FastifyInstance } from 'fastify/types/instance';
+
+
+const logDirectory = path.join(process.cwd(), 'logs');
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory, { recursive: true });
+}
+
+
 
 @Injectable()
-export class LoggerMiddleware implements NestMiddleware {
-  use(req: FastifyRequest, res: FastifyReply['raw'], next: () => void) {
-    const { method, url } = req;
-    const startTime = Date.now();
+export class LoggerMiddleware {
+  apply(fastify: FastifyInstance): void {
+    const start = Date.now();
 
-    // Log the incoming request
-    console.log(chalk.blue(`[Request] ${method} ${url}`));
+    fastify.addHook('onSend', (req, reply, payload, done) => {
+      const duration = `${Date.now() - start}ms`;
+      const logLine = `IP: ${req.ip} | ${moment().format("HH:mm:ss DD-MM-YYYY")} | ${req.method.padEnd(6)} | ${req.url} | ${reply.statusCode} | ${duration.padEnd(8)} |\n`;
 
-    // Capture the response completion using raw Node.js response
-    res.on('finish', () => {
-      const { statusCode } = res;
-      const responseTime = Date.now() - startTime;
+      const logFile = path.join(logDirectory, `${moment().format("DD-MM-YYYY")}.log`);
+      fs.appendFile(logFile, logLine, (err) => {
+        if (err) console.error('Failed to write log:', err);
+      });
 
-      // Status code color logic
-      const statusColor =
-        statusCode >= 500
-          ? chalk.red
-          : statusCode >= 400
-            ? chalk.yellow
-            : statusCode >= 300
-              ? chalk.cyan
-              : chalk.green;
-
-      // Format timestamp
-      const timestamp = moment(startTime).format('DD/MM/YYYY HH:mm:ss');
-
-      console.log(
-        statusColor(
-          `[Response ${timestamp}] ${method} ${url} ${statusCode} - ${responseTime}ms\n`,
-        ),
-      );
+      done(null, payload)
     });
-
-    next();
   }
 }
