@@ -1,9 +1,6 @@
 // import { ROLES } from '@constants';
 import { AuditFieldsDTO, BaseQueryParamsDTO } from './common.dtos';
-import {
-  GENDER,
-  ROLE,
-} from '@constants';
+import { GENDER, ROLE } from '@constants';
 
 export interface IUserToken {
   id: string;
@@ -69,8 +66,6 @@ export class ModifyPasswordDTO {
   isResetLink: boolean;
 }
 
-
-
 export interface ICurrentUser {
   id: string;
   roleName: ROLE;
@@ -89,4 +84,3 @@ export interface IUpdateUserProfileDTO {
   appVersion?: string;
   isProfileSetup?: boolean;
 }
-

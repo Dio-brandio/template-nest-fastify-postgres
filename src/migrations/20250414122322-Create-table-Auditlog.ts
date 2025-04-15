@@ -1,4 +1,5 @@
 import { DataTypes, QueryInterface } from 'sequelize';
+import { DataType } from 'sequelize-typescript';
 
 export const up = async ({ context }: { context: QueryInterface }) => {
   await context.createTable('audit_logs', {
@@ -6,11 +7,16 @@ export const up = async ({ context }: { context: QueryInterface }) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true
+      autoIncrement: true,
+    },
+    ip: {
+      type: DataTypes.STRING(15),
+      allowNull: false,
     },
     userId: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: null,
     },
     method: {
       type: DataTypes.STRING,
@@ -21,25 +27,49 @@ export const up = async ({ context }: { context: QueryInterface }) => {
       allowNull: false,
     },
     requestBody: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
       allowNull: true,
+      defaultValue: null,
     },
     responseBody: {
       type: DataTypes.TEXT,
       allowNull: true,
+      defaultValue: null,
     },
     statusCode: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     message: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-  });;
-}
-
-
-export const down = async ({ context }: { context: QueryInterface }) => {
-
+    duration: {
+      type: DataType.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+    },
+    module: {
+      type: DataType.STRING(10),
+      allowNull: true,
+      defaultValue: null,
+    },
+    newValues: {
+      type: DataType.JSON,
+      allowNull: true,
+      defaultValue: null,
+    },
+    oldValues: {
+      type: DataType.JSON,
+      allowNull: true,
+      defaultValue: null,
+    },
+    createdAt: {
+      type: DataType.DATE,
+      allowNull: true,
+      defaultValue: DataType.NOW
+    }
+  });
 };
+
+export const down = async ({ context }: { context: QueryInterface }) => { };

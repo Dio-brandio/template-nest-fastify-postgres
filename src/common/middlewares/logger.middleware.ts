@@ -32,8 +32,8 @@ export class LoggerMiddleware implements NestMiddleware {
 
       console.log(
         statusColor(
-          `[Response ${timestamp}] ${method} ${url} ${statusCode} - ${responseTime}ms\n`
-        )
+          `[Response ${timestamp}] ${method} ${url} ${statusCode} - ${responseTime}ms\n`,
+        ),
       );
     });
 

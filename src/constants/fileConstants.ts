@@ -135,7 +135,6 @@ const ACCEPTED_FIELDS = [
   { name: 'backgroundTrack', maxCount: 1 },
 ];
 
-
 const ALLOWED_MIMETYPES = [
   'image/jpeg',
   'image/png',

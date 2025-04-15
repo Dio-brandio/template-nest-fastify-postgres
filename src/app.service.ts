@@ -4,9 +4,9 @@ import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectModel(User) private user: typeof User) { }
+  constructor(@InjectModel(User) private user: typeof User) {}
   async getHello() {
-    await this.user.findAll()
+    await this.user.findAll();
     return 'Hello World!';
   }
 }

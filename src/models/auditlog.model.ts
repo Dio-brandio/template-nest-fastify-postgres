@@ -1,10 +1,15 @@
-import { Column, CreatedAt, DataType, Model, Table } from "sequelize-typescript";
+import {
+  Column,
+  CreatedAt,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 
 @Table({
   tableName: 'audit_logs',
-  timestamps: true,
+  timestamps: false,
 })
-
 export class AuditLog extends Model<AuditLog> {
   @Column({
     type: DataType.INTEGER,
@@ -13,6 +18,12 @@ export class AuditLog extends Model<AuditLog> {
     autoIncrement: true,
   })
   declare id: number;
+
+  @Column({
+    type: DataType.STRING(15),
+    allowNull: false,
+  })
+  ip: string;
 
   @Column({
     type: DataType.STRING,
@@ -34,18 +45,18 @@ export class AuditLog extends Model<AuditLog> {
   url: string;
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.JSON,
     allowNull: true,
     defaultValue: null,
   })
-  requestBody: string;
+  requestBody: Record<string, any>;
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.JSON,
     allowNull: true,
     defaultValue: null,
   })
-  responseBody: string;
+  responseBody: Record<string, any>;
 
   @Column({
     type: DataType.INTEGER,
@@ -54,11 +65,25 @@ export class AuditLog extends Model<AuditLog> {
   statusCode: number;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: true,
     defaultValue: null,
   })
   message: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    defaultValue: null,
+  })
+  duration?: number;
+
+  @Column({
+    type: DataType.STRING(10),
+    allowNull: true,
+    defaultValue: null,
+  })
+  module: string;
 
   @CreatedAt
   @Column({
@@ -68,4 +93,17 @@ export class AuditLog extends Model<AuditLog> {
   })
   declare createdAt: Date;
 
+  @Column({
+    type: DataType.JSON,
+    allowNull: true,
+    defaultValue: null,
+  })
+  oldValues: Record<string, any>;
+
+  @Column({
+    type: DataType.JSON,
+    allowNull: true,
+    defaultValue: null,
+  })
+  newValues: Record<string, any>;
 }

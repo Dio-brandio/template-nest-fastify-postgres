@@ -2,7 +2,7 @@ enum AUDITTYPES {
   CREATE = 'CREATE',
   UPDATE = 'UPDATE',
   DELETE = 'DELETE',
-  READ = 'READ'
+  READ = 'READ',
 }
 
 enum USERSTATUS {
@@ -28,11 +28,4 @@ enum GENDER {
   NOPREFRENCE = 'No preference',
 }
 
-
-
-export {
-  AUDITTYPES,
-  USERSTATUS,
-  ROLE,
-  GENDER,
-};
+export { AUDITTYPES, USERSTATUS, ROLE, GENDER };

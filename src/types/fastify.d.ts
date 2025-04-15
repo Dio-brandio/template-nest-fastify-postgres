@@ -1,11 +1,12 @@
 import { Messages } from '@constants';
-import { ICurrentUser } from '@dtos';
+import { IAuditFields, ICurrentUser } from '@dtos';
 import { HttpStatus } from '@nestjs/common';
 
 declare module 'fastify' {
   interface FastifyRequest {
     storedFiles: Record<string, Storage.MultipartFile[]>;
     currentUser?: ICurrentUser;
+    audit?: IAuditFields;
   }
   interface FastifyReply {
     ok: (data?: any, message?: string) => FastifyReply;

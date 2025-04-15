@@ -25,4 +25,3 @@ export const uzmug = new Umzug({
   storage: new SequelizeStorage({ sequelize }),
   logger: console,
 });
-

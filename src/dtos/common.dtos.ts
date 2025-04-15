@@ -25,12 +25,12 @@ export class AuditFieldsDTO {
 
 export interface ResponseDTO {
   status?: boolean;
-  statusCode?: number;
   message?: string;
   data?: any;
 }
 
-export interface Literal<T> {
-  hebrew: T;
-  arabic: T;
+export interface IAuditFields {
+  startTime?: number;
+  oldValues?: Record<string, any>
+  newValues?: Record<string, any>
 }

@@ -8,7 +8,7 @@ import { ZodSchema, ZodError } from 'zod';
 
 @Injectable()
 export class ZodValidationPipe implements PipeTransform {
-  constructor(private schema: ZodSchema<any>) { }
+  constructor(private schema: ZodSchema<any>) {}
 
   transform(value: any, metadata: ArgumentMetadata) {
     try {
@@ -16,7 +16,6 @@ export class ZodValidationPipe implements PipeTransform {
       return this.schema.parse(value);
     } catch (err) {
       if (err instanceof ZodError) {
-
         const formattedErrors = err.errors.map((error) => {
           // error.path is an array of keys leading to the error
           const field = error.path.join('.');

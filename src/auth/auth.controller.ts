@@ -1,9 +1,9 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ZodValidationPipe } from '@pipes';
 import { loginSchema, LoginDTO } from '@validators';
-import { handleError } from '@utils';
-import { FastifyReply } from 'fastify';
+import { handleError, setAuditParams } from '@utils';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 @Controller('auth')
 export class AuthController {
@@ -12,12 +12,38 @@ export class AuthController {
   @Post('login')
   async login(
     @Res() res: FastifyReply,
-    @Body(new ZodValidationPipe(loginSchema)) loginData: LoginDTO
+    @Req() req: FastifyRequest,
+    @Body(new ZodValidationPipe(loginSchema)) loginData: LoginDTO,
   ) {
     try {
-      res.ok(loginData)
+      const oldValues = {
+        name: 'Alice',
+        roles: ['user'],
+        location: { city: 'New York' }
+      }
+      const newValues = {
+        name: 'Alicia',
+        roles: ['user', 'admin'],
+        location: { city: 'Los Angeles' },
+        email: 'alicia@example.com'
+      };
+
+      setAuditParams(req, { oldValues, newValues })
+      res.ok(loginData);
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error);
+    }
+  }
+
+  @Get('login')
+  async login2(
+    @Res() res: FastifyReply,
+    @Body(new ZodValidationPipe(loginSchema)) loginData: LoginDTO,
+  ) {
+    try {
+      res.ok(loginData);
+    } catch (error) {
+      handleError(res, error);
     }
   }
 }

@@ -36,8 +36,11 @@ const database = ENV.DB.DATABASE;
         idle: 10000,
       },
       logging: process.env.NODE_ENV === 'dev',
-      models: [alllModels.User],
+      models: [
+        alllModels.User,
+        alllModels.AuditLog
+      ],
     }),
   ],
 })
-export class DBModule {}
+export class DBModule { }
