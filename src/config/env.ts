@@ -1,5 +1,4 @@
-import { config } from 'dotenv';
-import * as path from 'path';
+import { config } from 'dotenv'; import * as path from 'path';
 function initConfig() {
   const env = process.env.NODE_ENV || 'dev'; // Default to "development" if not set
   const envFile = env === 'prod' ? '.env' : `.env.${env}`;
@@ -68,6 +67,10 @@ const ENV = {
   },
   COUNTRY_CODE: process.env.COUNTRY_CODE,
   COOKIE_SECRET: process.env.COOKIE_SECRET,
+  REDIS: {
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: process.env.REDIS_PORT,
+  }
 };
 
 export { ENV };

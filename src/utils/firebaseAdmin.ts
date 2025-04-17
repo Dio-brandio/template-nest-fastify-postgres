@@ -3,7 +3,7 @@ import admin, {
   messaging,
   type ServiceAccount,
 } from 'firebase-admin';
-import { messageKey, statusCodes } from '@constants';
+import { statusCodes } from '@constants';
 import { log } from 'console';
 import { CustomError } from './customError';
 import { HttpStatus } from '@nestjs/common';
@@ -57,7 +57,7 @@ export const sendNotificationForMultiDevice = async (
     if (!tokens.length) {
       throw new CustomError(
         statusCodes.badRequest_status,
-        messageKey.noTokensProvided,
+        "noTokensProvided",
       );
     }
 
@@ -104,7 +104,7 @@ export const sendNotificationForMultiDevice = async (
     if (!sendMessage) {
       throw new CustomError(
         statusCodes.internal_server,
-        messageKey.errorInSendingMessage,
+        "errorInSendingMessage",
       );
     }
     return {

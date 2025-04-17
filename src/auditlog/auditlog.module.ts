@@ -4,15 +4,16 @@ import { BullModule } from '@nestjs/bullmq';
 import { AuditLogProcessor } from './auditlog.processer';
 import { AuditLog } from '@models';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { QUE_NAME } from '@constants';
 
 @Module({
   imports: [
     BullModule.registerQueue({
-      name: 'audit-log',
+      name: QUE_NAME.AUDIT_LOG,
     }),
     SequelizeModule.forFeature([AuditLog]),
   ],
   providers: [AuditlogService, AuditLogProcessor],
   exports: [AuditlogService],
 })
-export class AuditlogModule {}
+export class AuditlogModule { }

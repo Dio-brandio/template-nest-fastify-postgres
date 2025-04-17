@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { FastifyAuditPlugin, LoggerMiddleware } from '@middlewares';
 import { AuditlogModule } from './auditlog/auditlog.module';
 import { BullModule } from '@nestjs/bullmq';
+import { REDIS_CONNECTION } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -17,8 +18,7 @@ import { BullModule } from '@nestjs/bullmq';
     AuditlogModule,
     BullModule.forRoot({
       connection: {
-        host: 'localhost',
-        port: 6379,
+        ...REDIS_CONNECTION
       },
     }),
   ],

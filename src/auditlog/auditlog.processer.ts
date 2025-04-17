@@ -4,8 +4,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { AuditLog } from '@models';
 import { getAuditMessage } from '@utils';
+import { QUE_NAME } from '@constants';
 
-@Processor('audit-log')
+@Processor(QUE_NAME.AUDIT_LOG)
 @Injectable()
 export class AuditLogProcessor extends WorkerHost {
   constructor(

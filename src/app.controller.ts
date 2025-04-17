@@ -1,10 +1,11 @@
 import { Controller, Get, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { setAuditParams } from '@utils';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Post()
   async getHello(@Req() req: FastifyRequest, @Res() res: FastifyReply) {

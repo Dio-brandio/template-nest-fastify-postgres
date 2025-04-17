@@ -11,6 +11,8 @@ const username = ENV.DB.USERNAME;
 const password = ENV.DB.PASSWORD;
 const database = ENV.DB.DATABASE;
 
+console.log(process.env.NODE_ENV, " ENV")
+console.log(process.env.NODE_ENV === 'dev')
 @Module({
   imports: [
     SequelizeModule.forRoot({
@@ -35,7 +37,7 @@ const database = ENV.DB.DATABASE;
         acquire: 30000, // wait up to 30s to acquire a connection
         idle: 10000,
       },
-      logging: process.env.NODE_ENV === 'dev',
+      logging: false,
       models: [
         alllModels.User,
         alllModels.AuditLog
