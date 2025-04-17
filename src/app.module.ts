@@ -18,12 +18,11 @@ import { REDIS_CONNECTION } from './redis/redis.module';
     AuditlogModule,
     BullModule.forRoot({
       connection: {
-        ...REDIS_CONNECTION
+        ...REDIS_CONNECTION,
       },
     }),
   ],
   controllers: [AppController],
   providers: [AppService, FastifyAuditPlugin, LoggerMiddleware],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -55,10 +55,7 @@ export const sendNotificationForMultiDevice = async (
     );
 
     if (!tokens.length) {
-      throw new CustomError(
-        statusCodes.badRequest_status,
-        "noTokensProvided",
-      );
+      throw new CustomError(statusCodes.badRequest_status, 'noTokensProvided');
     }
 
     const fieldsToSend = [
@@ -104,7 +101,7 @@ export const sendNotificationForMultiDevice = async (
     if (!sendMessage) {
       throw new CustomError(
         statusCodes.internal_server,
-        "errorInSendingMessage",
+        'errorInSendingMessage',
       );
     }
     return {

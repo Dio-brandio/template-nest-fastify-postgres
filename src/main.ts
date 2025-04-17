@@ -33,7 +33,9 @@ async function bootstrap() {
   });
 
   await app.listen(port).then(() => {
-    console.log(`Server started at http://localhost/${port}`);
+    console.log(
+      `Environment:${process.env.NODE_ENV} \nServer started at http://localhost/${port}`,
+    );
   });
 }
 bootstrap();

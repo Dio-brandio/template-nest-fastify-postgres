@@ -8,7 +8,7 @@ import { NullishPropertiesOf } from 'sequelize/types/utils';
 
 @Injectable()
 export class AuditlogService {
-  constructor(@InjectQueue(QUE_NAME.AUDIT_LOG) private queue: Queue) { }
+  constructor(@InjectQueue(QUE_NAME.AUDIT_LOG) private queue: Queue) {}
 
   async createLog(data: Optional<AuditLog, NullishPropertiesOf<AuditLog>>) {
     await this.queue.add('create-log', data, {

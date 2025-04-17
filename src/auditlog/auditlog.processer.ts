@@ -18,14 +18,14 @@ export class AuditLogProcessor extends WorkerHost {
   async process(job: Job): Promise<any> {
     try {
       const data = job.data;
-      const { oldValues, newValues } = data
+      const { oldValues, newValues } = data;
       if (oldValues || newValues) {
-        data.message = getAuditMessage({ oldValues, newValues })
+        data.message = getAuditMessage({ oldValues, newValues });
       }
       const auditLog = await this.auditLog.create(data);
       return auditLog;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }

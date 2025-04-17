@@ -31,6 +31,6 @@ export interface ResponseDTO {
 
 export interface IAuditFields {
   startTime?: number;
-  oldValues?: Record<string, any>
-  newValues?: Record<string, any>
+  oldValues?: Record<string, any>;
+  newValues?: Record<string, any>;
 }

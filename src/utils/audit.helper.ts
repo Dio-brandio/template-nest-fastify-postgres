@@ -1,19 +1,22 @@
-import { IAuditFields } from "@dtos";
-import { FastifyRequest } from "fastify";
+import { IAuditFields } from '@dtos';
+import { FastifyRequest } from 'fastify';
 
 function setAuditParams(req: FastifyRequest, auditFields: IAuditFields) {
   req.audit = {
     ...req.audit,
-    ...auditFields
-  }
+    ...auditFields,
+  };
 }
 
 function getAuditMessage(audit: IAuditFields) {
-  const { oldValues, newValues } = audit
-  return generateAuditHtml(oldValues, newValues)
+  const { oldValues, newValues } = audit;
+  return generateAuditHtml(oldValues, newValues);
 }
 
-function generateAuditHtml(oldValues: Record<string, any>, newValues: Record<string, any>): string {
+function generateAuditHtml(
+  oldValues: Record<string, any>,
+  newValues: Record<string, any>,
+): string {
   const changes: string[] = [];
 
   for (const key in newValues) {
@@ -47,10 +50,12 @@ function generateAuditHtml(oldValues: Record<string, any>, newValues: Record<str
     if (oldValue === undefined) {
       changes.push(`Created <b>${key}</b> with value ${formatValue(newValue)}`);
     } else if (!isEqual(oldValue, newValue)) {
-      changes.push(`Updated <b>${key}</b> from ${formatSimpleValue(oldValue)} to ${formatSimpleValue(newValue)}`);
+      changes.push(
+        `Updated <b>${key}</b> from ${formatSimpleValue(oldValue)} to ${formatSimpleValue(newValue)}`,
+      );
     }
   }
   return changes.join('<br>');
 }
 
-export { setAuditParams, getAuditMessage }
+export { setAuditParams, getAuditMessage };

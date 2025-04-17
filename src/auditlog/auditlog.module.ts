@@ -16,4 +16,4 @@ import { QUE_NAME } from '@constants';
   providers: [AuditlogService, AuditLogProcessor],
   exports: [AuditlogService],
 })
-export class AuditlogModule { }
+export class AuditlogModule {}

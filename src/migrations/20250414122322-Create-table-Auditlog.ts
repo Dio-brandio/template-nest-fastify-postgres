@@ -67,9 +67,9 @@ export const up = async ({ context }: { context: QueryInterface }) => {
     createdAt: {
       type: DataType.DATE,
       allowNull: true,
-      defaultValue: DataType.NOW
-    }
+      defaultValue: DataType.NOW,
+    },
   });
 };
 
-export const down = async ({ context }: { context: QueryInterface }) => { };
+export const down = async ({ context }: { context: QueryInterface }) => {};

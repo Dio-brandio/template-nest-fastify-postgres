@@ -5,7 +5,6 @@ export enum JobEvent {
   USERNOTIFICATION = 'userNotification',
 }
 
-
 export enum QUE_NAME {
-  AUDIT_LOG = 'audit-log'
+  AUDIT_LOG = 'audit-log',
 }

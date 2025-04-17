@@ -1,13 +1,25 @@
-import { Body, Controller, Get, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ZodValidationPipe } from '@pipes';
 import { loginSchema, LoginDTO } from '@validators';
 import { handleError, setAuditParams } from '@utils';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { RedisService } from 'src/redis/redis.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly redisService: RedisService,
+  ) {}
 
   @Post('login')
   async login(
@@ -19,16 +31,16 @@ export class AuthController {
       const oldValues = {
         name: 'Alice',
         roles: ['user'],
-        location: { city: 'New York' }
-      }
+        location: { city: 'New York' },
+      };
       const newValues = {
         name: 'Alicia',
         roles: ['user', 'admin'],
         location: { city: 'Los Angeles' },
-        email: 'alicia@example.com'
+        email: 'alicia@example.com',
       };
 
-      setAuditParams(req, { oldValues, newValues })
+      setAuditParams(req, { oldValues, newValues });
       res.ok(loginData);
     } catch (error) {
       handleError(res, error);

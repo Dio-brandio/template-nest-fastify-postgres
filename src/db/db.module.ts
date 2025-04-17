@@ -11,8 +11,6 @@ const username = ENV.DB.USERNAME;
 const password = ENV.DB.PASSWORD;
 const database = ENV.DB.DATABASE;
 
-console.log(process.env.NODE_ENV, " ENV")
-console.log(process.env.NODE_ENV === 'dev')
 @Module({
   imports: [
     SequelizeModule.forRoot({
@@ -38,11 +36,8 @@ console.log(process.env.NODE_ENV === 'dev')
         idle: 10000,
       },
       logging: false,
-      models: [
-        alllModels.User,
-        alllModels.AuditLog
-      ],
+      models: [alllModels.User, alllModels.AuditLog],
     }),
   ],
 })
-export class DBModule { }
+export class DBModule {}
