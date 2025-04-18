@@ -5,7 +5,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { FastifyInstance } from 'fastify/types/instance';
 
-const logDirectory = path.join(process.cwd(), 'logs');
+const logsDirName = process.env.NODE_ENV !== 'prod' ? ('logs-' + process.env.NODE_ENV) : 'logs';
+const logDirectory = path.join(process.cwd(), logsDirName);
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory, { recursive: true });
 }
