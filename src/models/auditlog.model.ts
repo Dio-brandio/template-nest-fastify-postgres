@@ -88,7 +88,7 @@ export class AuditLog extends Model<AuditLog> {
   @CreatedAt
   @Column({
     type: DataType.DATE,
-    defaultValue: null,
+    defaultValue: DataType.NOW,
     allowNull: true,
   })
   declare createdAt: Date;
