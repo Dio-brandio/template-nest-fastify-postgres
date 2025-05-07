@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { handleError } from '@utils';
 
 @Controller()
 export class AppController {
@@ -38,11 +39,8 @@ export class AppController {
       //   data: await this.appService.getHello(),
       // });
     } catch (error) {
-      res.send({
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Upload failed: ' + error.message,
-        data: null,
-      });
+      error.message = 'Upload failed: ' + error.message;
+      handleError(res, error);
     }
   }
 }

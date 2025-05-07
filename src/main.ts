@@ -5,6 +5,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import multipart from '@fastify/multipart';
+import compression from '@fastify/compress';
 import { responseDecorator } from '@decorators';
 import { uzmug } from './libs/uzmug';
 require('ts-node/register');
@@ -20,6 +21,7 @@ export async function bootstrap() {
       fileSize: 200 * 1024 * 1024, // 🚀 200 MB limit
     },
   });
+  await app.register(compression);
   const fastifyInstance = app.getHttpAdapter().getInstance();
   await responseDecorator(fastifyInstance);
 

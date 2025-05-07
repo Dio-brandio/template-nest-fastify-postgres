@@ -13,16 +13,17 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "export NODE_ENV=prod && node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",     
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "mig:create": "npx ts-node scripts/createMigration.ts",
     "ebuild": "npx ts-node scripts/build.ts",
-    "estart":"node dist2/main.js"
+    "estart": "node dist2/main.js"
   },
   "dependencies": {
+    "@fastify/compress": "^8.0.1",
     "@fastify/multipart": "^9.0.3",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
