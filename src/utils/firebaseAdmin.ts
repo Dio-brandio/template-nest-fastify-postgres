@@ -11,8 +11,8 @@ import { ENV } from '@config';
 
 export const initFirebase = () => {
   try {
-    const firebaseConfig: ServiceAccount = ENV.FIREBASE_ADMIN as any;
-    admin.initializeApp({ credential: credential.cert(firebaseConfig) });
+    // const firebaseConfig: ServiceAccount = ENV.FIREBASE_ADMIN as any;
+    // admin.initializeApp({ credential: credential.cert(firebaseConfig) });
   } catch (error) {
     log('Error in initializing firebase', error);
     // throw new Error(messageKey.firebaseNotInit);

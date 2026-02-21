@@ -5,7 +5,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ZodError } from 'zod';
 
 @Catch(HttpException)
 export class ExceptionHandler implements ExceptionFilter {
@@ -14,9 +13,6 @@ export class ExceptionHandler implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
     let message = exception.message;
-    if (exception instanceof ZodError) {
-      message = (exception as any)?.response?.message?.join(', ');
-    }
     response.status(status).json({
       status,
       data: null,

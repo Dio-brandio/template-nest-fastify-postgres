@@ -35,7 +35,6 @@ export class FastifyAuditPlugin {
             requestBody: body,
             responseBody: JSON.parse(responseBody),
             statusCode: reply.statusCode,
-            duration,
             userId: request?.currentUser?.id,
             message: '',
             oldValues,

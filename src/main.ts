@@ -6,8 +6,8 @@ import {
 } from '@nestjs/platform-fastify';
 import multipart from '@fastify/multipart';
 import { responseDecorator } from '@decorators';
-import { uzmug } from './libs/uzmug';
 import { FastifyAuditPlugin, LoggerMiddleware } from '@middlewares';
+import { ENV } from '@config';
 require('ts-node/register');
 
 async function bootstrap() {
@@ -15,7 +15,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
-  const port = process.env.PORT ?? 3000;
+  const port = ENV.PORT;
   await app.register(multipart);
   const fastifyInstance = app.getHttpAdapter().getInstance();
 
@@ -27,10 +27,6 @@ async function bootstrap() {
 
   const loggerPlugin = app.get(LoggerMiddleware);
   loggerPlugin.apply(fastifyInstance);
-
-  uzmug.up().catch((err) => {
-    console.error('Error running migrations:', err);
-  });
 
   await app.listen(port).then(() => {
     console.log(

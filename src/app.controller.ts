@@ -7,6 +7,11 @@ import { setAuditParams } from '@utils';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get()
+  async test() {
+    return await this.appService.getHello();
+  }
+
   @Post()
   async getHello(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
     try {

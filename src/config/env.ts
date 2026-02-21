@@ -1,77 +1,80 @@
 import { config } from 'dotenv';
+import { existsSync } from 'fs';
 import * as path from 'path';
-function initConfig() {
-  const env = process.env.NODE_ENV || 'dev'; // Default to "development" if not set
-  const envFile = env === 'prod' ? '.env' : `.env.${env}`;
-  const envPath = path.resolve(process.cwd(), envFile); // Adjust path as needed
 
-  console.log(`Loading environment variables from: ${envPath}`);
-  config({ path: envPath });
+function initConfig() {
+  // const env = process.env.NODE_ENV || "dev";
+  // const envFile = env === "prod" ? ".env" : `.env.${env}`;
+  const envFile = '.env';
+  const envPath = path.resolve(process.cwd(), envFile);
+  if (existsSync(envPath)) {
+    console.log(`Loading environment variables from: ${envPath}`);
+    config({ path: envPath });
+  }
 }
 
 initConfig();
+const getEnvVariable = (key: string, defaultValue?: string) => {
+  if (process.env[key]) return process.env[key];
+  else if (defaultValue) return defaultValue;
+  else {
+    throw new Error(`Environment Variable for ${key} not found `);
+  }
+};
 
 const ENV = {
-  PORT: Number(process.env.PORT ?? 4000),
+  PORT: Number(getEnvVariable('PORT', '4000')),
+  BCRYPT_SALT: Number(getEnvVariable('BCRYPT_SALT', '10')),
+  OTP_EXPIRES_IN_MINUTES: Number(
+    getEnvVariable('OTP_EXPIRES_IN_MINUTES', '10'),
+  ),
+  FORGOT_PASSWORD_EXPIRES_IN_MINUTES: Number(
+    getEnvVariable('FORGOT_PASSWORD_EXPIRES_IN_MINUTES', '10'),
+  ),
+  FRONTEND_URL: getEnvVariable('FRONTEND_URL', 'localhost:3000'),
   DB: {
-    URL: process.env.DB_URL,
-    DIALECT: process.env.DB_DIALECT,
-    HOST: process.env.DB_HOST,
-    PORT: process.env.DB_PORT,
-    USERNAME: process.env.DB_USERNAME,
-    PASSWORD: process.env.DB_PASSWORD,
-    DATABASE: process.env.DB_DATABASE,
+    // URL: getEnvVariable('DB_URL'),
+    TYPE: getEnvVariable('DB_TYPE', 'postgres'),
+    HOST: getEnvVariable('DB_HOST'),
+    PORT: Number(getEnvVariable('DB_PORT')),
+    USERNAME: getEnvVariable('DB_USERNAME'),
+    PASSWORD: getEnvVariable('DB_PASSWORD'),
+    DATABASE: getEnvVariable('DB_DATABASE'),
+    SSL: getEnvVariable('DB_SSL', 'false') === 'true',
   },
   NODEMAILER: {
-    FROM_NAME: process.env.NODEMAILER_FROM_NAME,
-    HOST: process.env.NODEMAILER_HOST,
-    PORT: process.env.NODEMAILER_PORT,
-    SERVICE: process.env.NODEMAILER_SERVICE,
+    MAIL_FROM: getEnvVariable('MAIL_FROM', 'support@mail.com'),
+    HOST: getEnvVariable('SMTP_HOST'),
+    PORT: Number(getEnvVariable('SMTP_PORT', '587')),
+    SECURE: getEnvVariable('SMTP_SECURE', 'false') === 'true',
     AUTH: {
-      user: process.env.NODEMAILER_AUTH_USER,
-      pass: process.env.NODEMAILER_AUTH_PASS,
+      user: getEnvVariable('SMTP_USER'),
+      pass: getEnvVariable('SMTP_PASS'),
     },
   },
   JWT: {
-    SECRET: process.env.JWT_SECRET,
-    ACCESSTOKENTIME: process.env.JWT_ACCESSTOKENTIME,
-    REFRESHTOKENTIME: process.env.JWT_REFRESHACCESSTOKENTIME,
+    SECRET: getEnvVariable('JWT_SECRET'),
+    ACCESSTOKENTIME: getEnvVariable('JWT_ACCESSTOKENTIME', '1d'),
+    REFRESHTOKENTIME: getEnvVariable('JWT_REFRESHACCESSTOKENTIME', '15d'),
   },
-  URLS: {
-    ADMIN_PORTAL_URL: process.env.URLS_ADMIN_PORTAL_URL,
-    ADMIN_PORTAL_RESET_PASSWORD_URL:
-      process.env.ADMIN_PORTAL_RESET_PASSWORD_URL,
+  GOOGLE_OAUTH: {
+    CLIENT_ID: getEnvVariable('GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_ID'),
+    CLIENT_SECRET: getEnvVariable(
+      'GOOGLE_CLIENT_SECRET',
+      'GOOGLE_CLIENT_SECRET',
+    ),
+    REDIRECT_URI: getEnvVariable('GOOGLE_REDIRECT_URI', 'GOOGLE_REDIRECT_URI'),
   },
-  OTP_EXPIRES_IN_MINUTES: process.env.OTP_EXPIRES_IN_MINUTES,
-  FORGOT_PASSWORD_EXPIRES_IN_MINUTES:
-    process.env.FORGOT_PASSWORD_EXPIRES_IN_MINUTES,
-  DEFAULT_TIMEZONE: process.env.DEFAULT_TIMEZONE,
-  DATE_FORMAT: process.env.DATE_FORMAT,
-  DEFAULT_LANGUAGE: process.env.DEFAULT_LANGUAGE,
-  ORIGIN: process.env.ORIGIN,
   CRYPTO: {
-    SECRET: process.env.CRYPTO_SECRET,
+    SECRET: getEnvVariable('CRYPTO_SECRET'),
   },
-  FIREBASE_ADMIN: {
-    type: process.env.FIREBASE_ADMIN_TYPE,
-    project_id: process.env.FIREBASE_ADMIN_PROJECT_ID,
-    private_key_id: process.env.FIREBASE_ADMIN_PRIVATE_KEY_ID,
-    private_key: process.env.FIREBASE_ADMIN_PRIVATE_KEY,
-    client_email: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-    client_id: process.env.FIREBASE_ADMIN_CLIENT_ID,
-    auth_uri: process.env.FIREBASE_ADMIN_AUTH_URI,
-    token_uri: process.env.FIREBASE_ADMIN_TOKEN_URI,
-    auth_provider_x509_cert_url:
-      process.env.FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL,
-    client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL,
-    universe_domain: process.env.FIREBASE_ADMIN_UNIVERSE_DOMAIN,
-  },
-  COUNTRY_CODE: process.env.COUNTRY_CODE,
-  COOKIE_SECRET: process.env.COOKIE_SECRET,
   REDIS: {
-    REDIS_HOST: process.env.REDIS_HOST,
-    REDIS_PORT: process.env.REDIS_PORT,
+    HOST: getEnvVariable('REDIS_HOST'),
+    PORT: Number(getEnvVariable('REDIS_PORT')),
   },
+  isDev: process.env.NODE_ENV === 'dev',
+  isStage: process.env.NODE_ENV === 'stage',
+  isProd: process.env.NODE_ENV === 'prod',
 };
 
-export { ENV };
+export { initConfig, ENV };

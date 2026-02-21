@@ -1,11 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
-import { Transaction } from 'sequelize';
-export async function handleError(
-  res: FastifyReply,
-  error: any,
-  transaction?: Transaction,
-) {
+export async function handleError(res: FastifyReply, error: any) {
   let message = [error.message];
   if (error.name === 'ValidationError') {
     message = Object.values(error.errors).map((err: any) => err.message || err);
@@ -14,9 +9,6 @@ export async function handleError(
     error.code === 'ERR_INVALID_ARG_VALUE'
   ) {
     error.status = HttpStatus.BAD_REQUEST;
-  }
-  if (transaction) {
-    await transaction.rollback();
   }
   res.custom(
     error.status ?? HttpStatus.INTERNAL_SERVER_ERROR,

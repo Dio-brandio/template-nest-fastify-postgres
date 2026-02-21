@@ -1,12 +1,20 @@
-import { User } from '@models';
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { AuditlogService } from './auditlog/auditlog.service';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectModel(User) private user: typeof User) {}
+  constructor(private readonly auditLogService: AuditlogService) {}
   async getHello() {
-    await this.user.findAll();
-    return 'Hello World!';
+    await this.auditLogService.createLog({
+      ip: 'localhost',
+      message: 'example log',
+      method: 'GET',
+      requestBody: {},
+      responseBody: {},
+      url: '/',
+      userId: '0510256c-38ba-4b41-89ed-43ec428a7160',
+      statusCode: 200,
+    });
+    return 'Hello Fastify Template With Typeorm!';
   }
 }
